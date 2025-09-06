@@ -1,0 +1,4 @@
+model: "meta-llama/Llama-3.1-8B-Instruct"
+temperature: 0.2
+max_new_tokens: 256
+device_map: "auto"

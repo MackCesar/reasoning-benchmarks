@@ -1,0 +1,3 @@
+model: "llama3"
+temperature: 0.2
+max_tokens: 512
