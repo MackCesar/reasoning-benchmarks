@@ -11,7 +11,7 @@ from benchkit.engines.base import Engine
 from benchkit.engines.openai_engine import OpenAIEngine, OpenAIConfig
 from benchkit.engines.hf_engine import HFEngine, HFConfig
 from benchkit.engines.ollama_engine import OllamaEngine, OllamaConfig
-
+from benchkit.metrics import mc_accuracy
 
 def load_engine(name: str, cfg_path: str) -> Engine:
     with open(cfg_path, "r", encoding="utf-8") as f:
@@ -94,6 +94,12 @@ def main():
     save_jsonl(out, rows)
     print(f"Saved {len(rows)} rows to {out}")
 
+    acc = mc_accuracy(rows)
+    summary = {"_summary": True, "metric": "mc", "value": float(acc), "n": len(rows)}
+    with Path(out).open("a", encoding="utf-8") as f:
+        import json
+        f.write(json.dumps(summary, ensure_ascii=False) + "\n")
+    print(f"[metrics] mc_accuracy={acc:.4f} n={len(rows)} → appended to {out}")
 
 if __name__ == "__main__":
     main()
